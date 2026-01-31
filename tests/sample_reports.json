@@ -1,0 +1,92 @@
+[
+    {
+        "id": "normal_chest_xray",
+        "category": "normal",
+        "modality": "Chest X-ray",
+        "text": "Chest X-ray, PA and lateral views. Heart size is normal. Lungs are clear bilaterally. No acute infiltrates, pleural effusion, or pneumothorax identified. Bony structures are intact. No acute cardiopulmonary findings.",
+        "expected_findings_count": 3,
+        "expected_flags_count": 0,
+        "notes": "Completely normal chest X-ray with no abnormalities"
+    },
+    {
+        "id": "mild_cardiomegaly",
+        "category": "abnormal_mild",
+        "modality": "Chest X-ray",
+        "text": "Chest X-ray demonstrates mild cardiomegaly. Lungs are clear bilaterally. No acute infiltrates. No pleural effusion or pneumothorax identified. Recommend clinical correlation.",
+        "expected_findings_count": 2,
+        "expected_flags_count": 1,
+        "notes": "Mild heart enlargement requiring follow-up"
+    },
+    {
+        "id": "kidney_cysts",
+        "category": "abnormal_mild",
+        "modality": "CT Abdomen",
+        "text": "CT abdomen and pelvis with contrast. Liver shows no focal lesions. Gallbladder, pancreas, and spleen are unremarkable. Kidneys demonstrate bilateral simple cysts, largest measuring 2.3 cm on the right. No hydronephrosis. Bowel gas pattern is normal. No free fluid or lymphadenopathy.",
+        "expected_findings_count": 4,
+        "expected_flags_count": 1,
+        "notes": "Simple kidney cysts (common, usually benign)"
+    },
+    {
+        "id": "lung_nodule",
+        "category": "abnormal_significant",
+        "modality": "CT Chest",
+        "text": "CT chest without contrast. A 1.2 cm nodule is identified in the right upper lobe. Nodule has smooth margins. No other pulmonary nodules seen. No pleural effusion. Mediastinal lymph nodes are not enlarged. Recommend follow-up CT in 3 months or PET scan for further characterization.",
+        "expected_findings_count": 2,
+        "expected_flags_count": 1,
+        "notes": "Lung nodule requiring follow-up imaging"
+    },
+    {
+        "id": "brain_mri_normal",
+        "category": "normal",
+        "modality": "Brain MRI",
+        "text": "MRI brain with and without contrast. No acute intracranial abnormality. No mass, hemorrhage, or infarction. Ventricles and sulci are normal in size and configuration. No abnormal enhancement. White matter signal is within normal limits for age.",
+        "expected_findings_count": 2,
+        "expected_flags_count": 0,
+        "notes": "Normal brain MRI"
+    },
+    {
+        "id": "spine_degenerative",
+        "category": "abnormal_mild",
+        "modality": "Lumbar Spine X-ray",
+        "text": "Lumbar spine X-ray. Mild degenerative disc disease at L4-L5 and L5-S1 with disc space narrowing. Mild facet joint arthropathy. No acute fracture or malalignment. Vertebral body heights are maintained.",
+        "expected_findings_count": 3,
+        "expected_flags_count": 1,
+        "notes": "Age-related degenerative changes in spine"
+    },
+    {
+        "id": "fracture_wrist",
+        "category": "abnormal_significant",
+        "modality": "Wrist X-ray",
+        "text": "X-ray of the left wrist. Acute fracture of the distal radius with approximately 5mm dorsal displacement. No associated ulnar fracture. Carpal bones appear intact. Recommend orthopedic consultation for possible reduction and immobilization.",
+        "expected_findings_count": 2,
+        "expected_flags_count": 1,
+        "notes": "Acute fracture requiring orthopedic care"
+    },
+    {
+        "id": "pneumonia",
+        "category": "abnormal_significant",
+        "modality": "Chest X-ray",
+        "text": "Chest X-ray shows right lower lobe consolidation consistent with pneumonia. Small right pleural effusion. Heart size is normal. Left lung is clear. Recommend clinical correlation and appropriate antibiotic therapy.",
+        "expected_findings_count": 3,
+        "expected_flags_count": 2,
+        "notes": "Active pneumonia with pleural effusion"
+    },
+    {
+        "id": "ambiguous_liver",
+        "category": "ambiguous",
+        "modality": "Ultrasound Abdomen",
+        "text": "Ultrasound of the abdomen. Liver demonstrates heterogeneous echotexture. A 1.5 cm hypoechoic lesion is seen in the right lobe, incompletely characterized. Recommend MRI or CT for further evaluation. Gallbladder, spleen, and kidneys appear unremarkable.",
+        "expected_findings_count": 3,
+        "expected_flags_count": 1,
+        "notes": "Uncertain liver lesion requiring additional imaging"
+    },
+    {
+        "id": "edge_case_very_short",
+        "category": "edge_case",
+        "modality": "Chest X-ray",
+        "text": "Chest X-ray: Normal heart and lungs.",
+        "expected_findings_count": 1,
+        "expected_flags_count": 0,
+        "notes": "Very brief report (edge case for minimum length)"
+    }
+]
