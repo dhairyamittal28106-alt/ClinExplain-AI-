@@ -20,23 +20,23 @@ def format_confidence_visual(confidence: str) -> str:
     confidence_lower = confidence.lower()
     
     if confidence_lower == 'high':
-        dots = '●●●●●'
-        css_class = 'confidence-high'
+        dots = '●●●'
+        color_var = 'var(--success-600)'
         label = 'High'
     elif confidence_lower == 'medium':
-        dots = '●●●○○'
-        css_class = 'confidence-medium'
+        dots = '●●○'
+        color_var = 'var(--warning-600)'
         label = 'Medium'
     elif confidence_lower == 'low':
-        dots = '●○○○○'
-        css_class = 'confidence-low'
+        dots = '●○○'
+        color_var = 'var(--danger-600)'
         label = 'Low'
     else:
-        dots = '○○○○○'
-        css_class = 'confidence-low'
+        dots = '○○○'
+        color_var = 'var(--slate-400)'
         label = 'Unknown'
     
-    return f'<span class="{css_class}">{dots} {label}</span>'
+    return f'<span style="color: {color_var}; font-weight: 600; font-variant-numeric: tabular-nums;">{dots} {label}</span>'
 
 
 def format_findings_html(findings: List[Dict[str, Any]]) -> str:
@@ -51,19 +51,15 @@ def format_findings_html(findings: List[Dict[str, Any]]) -> str:
     """
     if not findings:
         return """
-        <div class="report-section">
+        <div class="med-card">
             <h3>🔍 Key Findings</h3>
-            <p style="color: #666; font-style: italic;">No findings were extracted from this report.</p>
-            <p>This may happen if:</p>
-            <ul>
-                <li>The report contains only normal findings</li>
-                <li>The text is too short or unclear</li>
-                <li>The AI had low confidence in all extractions</li>
-            </ul>
+            <div style="text-align: center; padding: 2rem; color: var(--slate-500);">
+                <p>No findings extracted from this report.</p>
+            </div>
         </div>
         """
     
-    html_parts = ['<div class="report-section"><h3>🔍 Key Findings Extracted</h3>']
+    html_parts = ['<div class="med-card"><h3>🔍 Key Findings Extracted</h3>']
     
     for i, finding in enumerate(findings, 1):
         text = finding.get('text', 'No text available')
@@ -83,18 +79,13 @@ def format_findings_html(findings: List[Dict[str, Any]]) -> str:
         }.get(category.lower(), '•')
         
         finding_html = f"""
-        <div style="margin: 15px 0; padding: 15px; background: #f9f9f9; border-left: 4px solid #3498DB; border-radius: 4px;">
-            <div style="font-size: 1.1em; font-weight: 600; color: #2C3E50; margin-bottom: 8px;">
-                {category_emoji} {i}. {text}
+        <div class="finding-item">
+            <div class="finding-header">
+                <span style="font-weight: 600; color: var(--slate-800);">{category_emoji} {text}</span>
+                <span style="font-size: 0.9em;">{confidence_html}</span>
             </div>
-            <div style="margin: 5px 0; color: #555;">
-                <strong>Source:</strong> <code style="background: #FFF9C4; padding: 2px 6px; border-radius: 3px;">"{source}"</code>
-            </div>
-            <div style="margin: 5px 0;">
-                <strong>Confidence:</strong> {confidence_html}
-            </div>
-            <div style="margin: 5px 0; color: #666;">
-                <strong>Category:</strong> {category.capitalize()}
+            <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--slate-600);">
+                <strong>Source:</strong> <code style="background: var(--warning-50); padding: 2px 6px; border-radius: 4px; color: var(--slate-700);">"{source}"</code>
             </div>
         </div>
         """
@@ -116,11 +107,11 @@ def format_flags_html(flags: List[Dict[str, Any]]) -> str:
     """
     if not flags:
         return """
-        <div class="report-section">
+        <div class="med-card">
             <h3>⚠️ Attention Flags</h3>
-            <div style="padding: 15px; background: #d4edda; border-left: 4px solid #28a745; border-radius: 4px;">
+            <div class="med-banner success">
                 <strong>✓ No attention flags identified</strong>
-                <p style="margin: 10px 0 0 0;">
+                <p style="margin: 0.5rem 0 0 0;">
                     The AI did not identify any findings that require special attention or follow-up.
                     However, always discuss your complete results with your healthcare provider.
                 </p>
@@ -129,9 +120,9 @@ def format_flags_html(flags: List[Dict[str, Any]]) -> str:
         """
     
     html_parts = [
-        '<div class="report-section">',
+        '<div class="med-card">',
         '<h3>⚠️ Points for Discussion with Your Doctor</h3>',
-        '<div style="padding: 12px; background: #FFF3E0; border-left: 4px solid #FF9800; border-radius: 4px; margin-bottom: 15px;">',
+        '<div class="med-banner warning">',
         '<strong>Important:</strong> These are NOT diagnoses. They are items that may require clinical correlation. ',
         'Your doctor will interpret these in the context of your complete health picture.',
         '</div>'
@@ -145,21 +136,19 @@ def format_flags_html(flags: List[Dict[str, Any]]) -> str:
         
         # Severity styling
         if severity.lower() == 'warning':
-            bg_color = '#FFF3E0'
-            border_color = '#FF9800'
+            banner_class = 'warning'
             icon = '⚠️'
         else:  # info
-            bg_color = '#E3F2FD'
-            border_color = '#2196F3'
+            banner_class = 'info'
             icon = 'ℹ️'
         
         flag_html = f"""
-        <div style="margin: 12px 0; padding: 15px; background: {bg_color}; border-left: 4px solid {border_color}; border-radius: 4px;">
-            <div style="font-size: 1.05em; font-weight: 600; color: #2C3E50; margin-bottom: 8px;">
+        <div class="med-banner {banner_class}">
+            <div style="font-size: 1.05em; font-weight: 600; margin-bottom: 0.5rem;">
                 {icon} {flag_text}
             </div>
-            {f'<div style="margin: 5px 0; color: #555;"><strong>Context:</strong> {context}</div>' if context else ''}
-            {f'<div style="margin: 5px 0; color: #555;"><strong>Source:</strong> <code style="background: white; padding: 2px 6px; border-radius: 3px;">"{source}"</code></div>' if source else ''}
+            {f'<div style="margin: 0.25rem 0;"><strong>Context:</strong> {context}</div>' if context else ''}
+            {f'<div style="margin: 0.25rem 0;"><strong>Source:</strong> <code style="background: rgba(255,255,255,0.5); padding: 2px 6px; border-radius: 4px;">"{source}"</code></div>' if source else ''}
         </div>
         """
         html_parts.append(flag_html)

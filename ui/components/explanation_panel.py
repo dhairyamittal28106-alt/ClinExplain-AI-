@@ -23,59 +23,64 @@ def format_patient_summary(
     """
     if not summary:
         return """
-### ℹ️ Summary Not Available
-
-The system could not generate a patient-friendly summary for this report.
-This may happen if:
-- The report is very technical or specialized
-- The findings are ambiguous
-- The AI had low confidence in its interpretation
-
-**What to do:** Discuss the original report directly with your healthcare provider.
-"""
+        <div class="med-card">
+            <h3>ℹ️ Summary Not Available</h3>
+            <p>The system could not generate a patient-friendly summary for this report.</p>
+            <div class="med-banner info" style="margin-top: 1rem;">
+                <strong>Reason:</strong> This often happens if the report is very technical, ambiguous, or if the AI had low confidence.
+            </div>
+            <p style="margin-top: 1rem;"><strong>What to do:</strong> Discuss the original report directly with your healthcare provider.</p>
+        </div>
+        """
     
-    output = []
+    output = ['<div class="med-card">']
     
     # Main summary text
     if 'summary' in summary and summary['summary']:
-        output.append("### 💬 Plain Language Summary\n")
-        output.append(summary['summary'])
-        output.append("\n")
+        output.append("<h3>💬 Plain Language Summary</h3>")
+        output.append(f"<p style='font-size: 1.1em; line-height: 1.6; margin-bottom: 1.5rem;'>{summary['summary']}</p>")
     
     # Key points
     if 'key_points' in summary and summary['key_points']:
-        output.append("### 📌 Key Points\n")
+        output.append("<h4 style='color: var(--primary-700); margin-bottom: 0.5rem;'>📌 Key Points</h4>")
+        output.append("<ul style='padding-left: 1.25rem; margin-bottom: 1.5rem;'>")
         for point in summary['key_points']:
-            output.append(f"- {point}")
-        output.append("\n")
+            output.append(f"<li style='margin-bottom: 0.25rem;'>{point}</li>")
+        output.append("</ul>")
     
     # Medical terms explained
     if terminology:
-        output.append("### 📖 Medical Terms Explained\n")
+        output.append("<h4 style='color: var(--primary-700); margin-bottom: 0.5rem;'>📖 Medical Terms Explained</h4>")
+        output.append("<div style='display: grid; gap: 0.75rem; margin-bottom: 1.5rem;'>")
         for term in terminology:
             medical_term = term.get('medical_term', 'Unknown')
             explanation = term.get('simple_explanation', 'No explanation available')
             confidence = term.get('confidence', 'unknown')
             
-            confidence_emoji = {
-                'high': '✓',
-                'medium': '~',
-                'low': '?'
-            }.get(confidence, '?')
-            
-            output.append(f"**{medical_term}** ({confidence_emoji} {confidence} confidence)")
-            output.append(f": {explanation}\n")
+            output.append(f"""
+            <div style="background: var(--slate-50); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--slate-200);">
+                <div style="font-weight: 600; color: var(--slate-800); margin-bottom: 0.25rem;">{medical_term}</div>
+                <div style="font-size: 0.95em; color: var(--slate-600);">{explanation}</div>
+            </div>
+            """)
+        output.append("</div>")
     
     # Next steps note
     if 'next_steps_note' in summary and summary['next_steps_note']:
-        output.append("### 📋 Next Steps\n")
-        output.append(f"> {summary['next_steps_note']}\n")
+        output.append("""
+        <div class="med-banner info">
+            <strong>📋 Next Steps:</strong><br/>
+            {}
+        </div>
+        """.format(summary['next_steps_note']))
     
     # Safety reminder
-    output.append("\n---\n")
-    output.append("**⚠️ Important Reminder**\n\n")
-    output.append("This summary is AI-generated and for informational purposes only. ")
-    output.append("Your healthcare provider will interpret your results in the context of ")
-    output.append("your complete medical history, symptoms, and other test results.\n")
+    output.append("""
+    <div style="border-top: 1px solid var(--slate-200); margin-top: 1.5rem; padding-top: 1rem; font-size: 0.9em; color: var(--slate-500);">
+        <strong>⚠️ Important Reminder:</strong> This summary is AI-generated and for informational purposes only.
+        Your healthcare provider will interpret your results in the context of your complete medical history.
+    </div>
+    """)
     
+    output.append("</div>")
     return "\n".join(output)

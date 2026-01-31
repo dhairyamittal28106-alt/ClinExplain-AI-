@@ -47,18 +47,18 @@ def format_original_report(report_text: str, extraction: Dict[str, Any]) -> str:
             )
     
     legend_html = """
-    <div style="margin-bottom: 15px; padding: 10px; background: #FFF9C4; border-radius: 4px; border-left: 4px solid #FBC02D;">
+    <div class="med-banner warning" style="margin-bottom: 1rem;">
         <strong>Legend:</strong> <span class="source-highlight">Yellow highlights</span> show text that was used by the AI to extract findings.
         This helps you verify the AI didn't hallucinate or misinterpret.
     </div>
     """
     
     return f"""
-    <div class="report-section">
+    <div class="med-card">
         <h3>📋 Your Original Report</h3>
         {legend_html}
-        <div style="background: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">
-            <pre style="white-space: pre-wrap; font-family: Georgia, serif; line-height: 1.8; margin: 0;">{highlighted_text}</pre>
+        <div style="background: var(--slate-50); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--slate-200);">
+            <pre style="white-space: pre-wrap; font-family: Georgia, serif; line-height: 1.8; margin: 0; color: var(--slate-800);">{highlighted_text}</pre>
         </div>
     </div>
     """
