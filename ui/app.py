@@ -648,7 +648,7 @@ if __name__ == "__main__":
 )
 
         
-        print("Starting FastAPI server on port 7864...")
+        print("Starting FastAPI server on port 7870...")
         uvicorn.run(app, host="0.0.0.0", port=7870)
         
     except ImportError as e:
