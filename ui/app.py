@@ -4,6 +4,7 @@ ClinExplain AI - Gradio Frontend Application
 A safety-first medical report interpretation interface.
 Designed for transparency, clarity, and ethical restraint.
 """
+print("RUNNING APP.PY FROM:", __file__)
 
 import gradio as gr
 import sys
@@ -23,7 +24,11 @@ from ui.components.metadata_display import format_metadata_panel
 
 # Initialize pipeline (will use mock mode by default for demo)
 # Set use_mock=False when running with actual MedGemma in Kaggle
-pipeline = ClinExplainPipeline(use_mock=True, include_disclaimer=True)
+pipeline = ClinExplainPipeline(
+    use_mock=False,
+    include_disclaimer=True
+)
+
 
 
 def extract_text_from_pdf(file_path: str) -> str:

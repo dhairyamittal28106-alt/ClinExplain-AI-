@@ -95,7 +95,8 @@ SIMPLIFICATION_PROMPT_TEMPLATE = """You are a medical communication specialist h
 {structured_findings}
 
 **Output Format**:
-Return a JSON object with:
+Return ONLY valid JSON matching this exact schema:
+
 {{
   "summary": "2-3 paragraph patient-friendly explanation",
   "key_points": ["Bullet point 1", "Bullet point 2", "..."],
@@ -112,7 +113,11 @@ Instead use:
 - "This may indicate [general category]"
 - "Your doctor can explain [specific detail]"
 
-**Important**: Return ONLY the JSON object.
+**Important**:
+- Return ONLY valid JSON matching the schema.
+- If unsure, still generate a best-effort summary.
+- NO markdown allowed (e.g. no ```json ... ``` blocks).
+- NO commentary or explanations outside the JSON.
 """
 
 
