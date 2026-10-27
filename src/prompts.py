@@ -9,9 +9,9 @@ from typing import Dict, Any
 from .config import PROMPT_VERSION
 
 
-# ============================================================================
-# PRIMARY EXTRACTION PROMPT
-# ============================================================================
+
+
+
 
 EXTRACTION_PROMPT_TEMPLATE = """You are a medical information extraction assistant.
 
@@ -74,9 +74,9 @@ Return ONLY valid JSON matching this exact schema:
 """
 
 
-# ============================================================================
-# SIMPLIFICATION PROMPT
-# ============================================================================
+
+
+
 
 SIMPLIFICATION_PROMPT_TEMPLATE = """You are a medical communication specialist helping patients understand clinical reports.
 
@@ -121,9 +121,9 @@ Instead use:
 """
 
 
-# ============================================================================
-# VALIDATION PROMPT (For Quality Checks)
-# ============================================================================
+
+
+
 
 VALIDATION_PROMPT_TEMPLATE = """You are a medical AI safety validator.
 
@@ -159,9 +159,9 @@ VALIDATION_PROMPT_TEMPLATE = """You are a medical AI safety validator.
 """
 
 
-# ============================================================================
-# FEW-SHOT EXAMPLES (Optional)
-# ============================================================================
+
+
+
 
 EXAMPLE_EXTRACTION_1 = {
     "input": """Chest X-ray demonstrates mild cardiomegaly. Lungs are clear bilaterally. 
@@ -285,9 +285,9 @@ No hydronephrosis. Bowel gas pattern normal.""",
 }
 
 
-# ============================================================================
-# PROMPT BUILDER FUNCTIONS
-# ============================================================================
+
+
+
 
 def build_extraction_prompt(report_text: str, include_examples: bool = False) -> str:
     """
@@ -302,13 +302,13 @@ def build_extraction_prompt(report_text: str, include_examples: bool = False) ->
     """
     prompt = EXTRACTION_PROMPT_TEMPLATE.format(report_text=report_text)
     
-    # Optionally add few-shot examples
+    
     if include_examples:
         examples_text = "\n\n**Examples for Reference**:\n\n"
         examples_text += f"Example 1 Input:\n{EXAMPLE_EXTRACTION_1['input']}\n\n"
         examples_text += f"Example 1 Output:\n{EXAMPLE_EXTRACTION_1['output']}\n\n"
         
-        # Insert examples before the actual task
+        
         prompt = prompt.replace(
             "**Clinical Report**:",
             examples_text + "**Clinical Report**:"
@@ -349,9 +349,9 @@ def build_validation_prompt(original_report: str, ai_output: str) -> str:
     )
 
 
-# ============================================================================
-# PROMPT METADATA
-# ============================================================================
+
+
+
 
 PROMPT_METADATA = {
     "version": PROMPT_VERSION,

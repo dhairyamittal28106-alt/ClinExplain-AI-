@@ -9,9 +9,9 @@ from typing import Dict, List, Set
 from enum import Enum
 
 
-# ============================================================================
-# ENUM DEFINITIONS
-# ============================================================================
+
+
+
 
 class ConfidenceLevel(str, Enum):
     """Confidence levels for extractions"""
@@ -34,18 +34,18 @@ class FindingCategory(str, Enum):
     NORMAL = "normal"
 
 
-# ============================================================================
-# INPUT VALIDATION SETTINGS
-# ============================================================================
+
+
+
 
 INPUT_MIN_LENGTH = 50
 INPUT_MAX_LENGTH = 5000
 INPUT_WARNING_LENGTH = 3000
 
 
-# ============================================================================
-# MODEL INFERENCE SETTINGS
-# ============================================================================
+
+
+
 
 INFERENCE_CONFIG = {
     "temperature": 0.1,
@@ -54,16 +54,16 @@ INFERENCE_CONFIG = {
     "candidate_count": 1,
 }
 
-# 🔥 PUBLIC UNGATED MODEL (WORKS WITHOUT APPROVAL)
+
 MEDGEMMA_MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
-# Backup lightweight model
+
 FALLBACK_MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 
-# ============================================================================
-# SAFETY CONSTRAINTS
-# ============================================================================
+
+
+
 
 FORBIDDEN_DIAGNOSTIC_PHRASES: Set[str] = {
     "you have",
@@ -108,9 +108,9 @@ ALL_FORBIDDEN_PHRASES = (
 )
 
 
-# ============================================================================
-# OUTPUT FORMATTING
-# ============================================================================
+
+
+
 
 TARGET_READING_LEVEL = 8
 MAX_READING_LEVEL = 10
@@ -119,9 +119,9 @@ SUMMARY_MIN_LENGTH = 100
 SUMMARY_MAX_LENGTH = 800
 
 
-# ============================================================================
-# DISCLAIMERS & NOTICES
-# ============================================================================
+
+
+
 
 PRIMARY_DISCLAIMER = """
 ⚠️ IMPORTANT MEDICAL DISCLAIMER
@@ -153,9 +153,9 @@ PII_WARNING = """
 """
 
 
-# ============================================================================
-# JSON SCHEMA DEFINITIONS
-# ============================================================================
+
+
+
 
 EXTRACTION_SCHEMA = {
     "type": "object",
@@ -207,9 +207,9 @@ EXTRACTION_SCHEMA = {
 }
 
 
-# ============================================================================
-# LOGGING & MONITORING
-# ============================================================================
+
+
+
 
 LOG_LEVEL = "INFO"
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -224,27 +224,27 @@ METRICS_TO_TRACK = [
 ]
 
 
-# ============================================================================
-# TESTING CONFIGURATION
-# ============================================================================
+
+
+
 
 TEST_REPORT_MIN_COUNT = 20
 TEST_HALLUCINATION_THRESHOLD = 0.05
 TEST_SAFETY_VIOLATION_THRESHOLD = 0.0
 
 
-# ============================================================================
-# VERSION INFO
-# ============================================================================
+
+
+
 
 VERSION = "1.1.0"
 PROMPT_VERSION = "1.1"
 LAST_UPDATED = "2026-02-01"
 
 
-# ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
+
+
+
 
 def get_inference_config() -> Dict:
     return INFERENCE_CONFIG.copy()

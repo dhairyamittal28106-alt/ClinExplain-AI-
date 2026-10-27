@@ -9,7 +9,7 @@ import json
 import sys
 from pathlib import Path
 
-# Add src to path
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.pipeline import create_pipeline
@@ -23,17 +23,17 @@ def main():
     print("=" * 70)
     print()
     
-    # Load sample reports
+    
     sample_file = Path(__file__).parent / "sample_reports.json"
     with open(sample_file) as f:
         samples = json.load(f)
     
-    # Create pipeline (using mock inference for demo)
+    
     print("Initializing pipeline (mock mode)...")
     pipeline = create_pipeline(use_mock=True)
     print("✓ Pipeline ready\n")
     
-    # Process first 3 samples
+    
     print(f"Processing {min(3, len(samples))} sample reports...\n")
     
     for i, sample in enumerate(samples[:3], 1):
@@ -43,7 +43,7 @@ def main():
         print("=" * 70)
         print()
         
-        # Process
+        
         result = pipeline.process(sample['text'])
         
         if result.success:
@@ -51,7 +51,7 @@ def main():
             print(result.formatted_output)
             print()
             
-            # Show metadata
+            
             print("-" * 70)
             print("Metadata:")
             print(f"  Findings extracted: {len(result.extraction.get('findings', []))}")
@@ -67,7 +67,7 @@ def main():
         
         print()
     
-    # Batch processing demo
+    
     print("=" * 70)
     print("Batch Processing Demo")
     print("=" * 70)
@@ -76,7 +76,7 @@ def main():
     all_reports = [s['text'] for s in samples]
     results = pipeline.process_batch(all_reports, include_summary=True)
     
-    # Calculate metrics
+    
     metrics = pipeline.get_metrics(results)
     
     print("\nBatch Processing Metrics:")

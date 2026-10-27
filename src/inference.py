@@ -15,16 +15,16 @@ from dataclasses import dataclass
 from .config import get_inference_config
 from .prompts import build_extraction_prompt, build_simplification_prompt
 
-# ------------------------------------------------------------------
-# Logging
-# ------------------------------------------------------------------
+
+
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ------------------------------------------------------------------
-# Data Structures
-# ------------------------------------------------------------------
+
+
+
 
 @dataclass
 class InferenceResult:
@@ -34,9 +34,9 @@ class InferenceResult:
     error: Optional[str]
     metadata: Dict[str, Any]
 
-# ------------------------------------------------------------------
-# Main Engine
-# ------------------------------------------------------------------
+
+
+
 
 class MedGemmaInference:
     """
@@ -68,7 +68,7 @@ class MedGemmaInference:
             else:
                 logger.info("OpenRouter API Key found. Ready for real inference.")
 
-    # ------------------------------------------------------------------
+    
 
     def extract_findings(
         self,
@@ -81,7 +81,7 @@ class MedGemmaInference:
         prompt = build_extraction_prompt(report_text, include_examples)
         return self._run_inference(prompt, task="extraction")
 
-    # ------------------------------------------------------------------
+    
 
     def simplify_findings(
         self,
@@ -93,7 +93,7 @@ class MedGemmaInference:
         prompt = build_simplification_prompt(structured_findings)
         return self._run_inference(prompt, task="simplification")
 
-    # ------------------------------------------------------------------
+    
 
     def _run_inference(
         self,
@@ -126,7 +126,7 @@ class MedGemmaInference:
             logger.warning("Falling back to mock inference due to error")
             return self._mock_inference(prompt, task)
 
-    # ------------------------------------------------------------------
+    
 
     def call_openrouter(self, prompt: str) -> str:
         """
@@ -156,7 +156,7 @@ class MedGemmaInference:
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
 
-    # ------------------------------------------------------------------
+    
 
     def _mock_inference(self, prompt: str, task: str) -> InferenceResult:
 
@@ -225,9 +225,9 @@ class MedGemmaInference:
             }
         )
 
-# ------------------------------------------------------------------
-# Factory
-# ------------------------------------------------------------------
+
+
+
 
 def create_inference_engine(
     model_path: Optional[str] = None,

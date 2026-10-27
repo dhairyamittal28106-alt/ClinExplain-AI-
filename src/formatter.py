@@ -72,39 +72,39 @@ class OutputFormatter:
         """
         sections = []
         
-        # Disclaimer (always first)
+        
         if self.include_disclaimer:
             sections.append(self._format_disclaimer())
         
-        # Key findings
+        
         if extraction.get("findings"):
             sections.append(self._format_findings(extraction["findings"]))
         
-        # Attention flags
+        
         if extraction.get("attention_flags"):
             sections.append(self._format_attention_flags(extraction["attention_flags"]))
         
-        # Patient summary
+        
         if summary:
             sections.append(self._format_patient_summary(summary))
         
-        # Medical terminology
+        
         if extraction.get("terminology"):
             sections.append(self._format_terminology(extraction["terminology"]))
         
-        # Uncertainties
+        
         has_uncertainties = bool(extraction.get("uncertainties"))
         if has_uncertainties:
             sections.append(self._format_uncertainties(extraction["uncertainties"]))
         
-        # Combine sections
+        
         markdown = "\n\n---\n\n".join(sections)
         
-        # Calculate readability
+        
         summary_text = summary.get("summary", "") if summary else ""
         readability = self._calculate_readability(summary_text) if summary_text else None
         
-        # Word count
+        
         word_count = len(markdown.split())
         
         return FormattedOutput(
@@ -128,10 +128,10 @@ class OutputFormatter:
             confidence = finding.get("confidence", "unknown")
             category = finding.get("category", "observation")
             
-            # Confidence indicator
+            
             conf_icon = self._get_confidence_icon(confidence)
             
-            # Category icon
+            
             cat_icon = self._get_category_icon(category)
             
             lines.append(f"• {cat_icon} {text} {conf_icon}")
@@ -147,7 +147,7 @@ class OutputFormatter:
             severity = flag.get("severity", "info")
             context = flag.get("context", "")
             
-            # Severity icon
+            
             severity_icon = self._get_severity_icon(severity)
             
             lines.append(f"**{severity_icon} {flag_text}**")
@@ -160,13 +160,13 @@ class OutputFormatter:
         """Format patient-friendly summary section"""
         lines = ["## 💬 Patient-Friendly Summary\n"]
         
-        # Main summary
+        
         summary_text = summary.get("summary", "")
         if summary_text:
             lines.append(summary_text)
             lines.append("")
         
-        # Key points
+        
         key_points = summary.get("key_points", [])
         if key_points:
             lines.append("**Key Points:**")
@@ -174,7 +174,7 @@ class OutputFormatter:
                 lines.append(f"• {point}")
             lines.append("")
         
-        # Next steps
+        
         next_steps = summary.get("next_steps_note", "")
         if next_steps:
             lines.append(f"**Next Steps:** {next_steps}")
@@ -264,7 +264,7 @@ class OutputFormatter:
         if readability_score is None:
             return "**Readability**: Not calculated"
         
-        # Assess against target
+        
         if readability_score <= TARGET_READING_LEVEL:
             status = "✓ Excellent"
             color = "green"
@@ -278,9 +278,9 @@ class OutputFormatter:
         return f"**Readability**: Grade {readability_score} ({status})"
 
 
-# ============================================================================
-# CONVENIENCE FUNCTIONS
-# ============================================================================
+
+
+
 
 def format_output(
     extraction: Dict[str, Any],

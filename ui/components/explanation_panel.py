@@ -35,12 +35,12 @@ def format_patient_summary(
     
     output = ['<div class="med-card">']
     
-    # Main summary text
+    
     if 'summary' in summary and summary['summary']:
         output.append("<h3>💬 Plain Language Summary</h3>")
         output.append(f"<p style='font-size: 1.1em; line-height: 1.6; margin-bottom: 1.5rem;'>{summary['summary']}</p>")
     
-    # Key points
+    
     if 'key_points' in summary and summary['key_points']:
         output.append("<h4 style='color: var(--primary-700); margin-bottom: 0.5rem;'>📌 Key Points</h4>")
         output.append("<ul style='padding-left: 1.25rem; margin-bottom: 1.5rem;'>")
@@ -48,7 +48,7 @@ def format_patient_summary(
             output.append(f"<li style='margin-bottom: 0.25rem;'>{point}</li>")
         output.append("</ul>")
     
-    # Medical terms explained
+    
     if terminology:
         output.append("<h4 style='color: var(--primary-700); margin-bottom: 0.5rem;'>📖 Medical Terms Explained</h4>")
         output.append("<div style='display: grid; gap: 0.75rem; margin-bottom: 1.5rem;'>")
@@ -65,7 +65,7 @@ def format_patient_summary(
             """)
         output.append("</div>")
     
-    # Next steps note
+    
     if 'next_steps_note' in summary and summary['next_steps_note']:
         output.append("""
         <div class="med-banner info">
@@ -74,7 +74,7 @@ def format_patient_summary(
         </div>
         """.format(summary['next_steps_note']))
     
-    # Safety reminder
+    
     output.append("""
     <div style="border-top: 1px solid var(--slate-200); margin-top: 1.5rem; padding-top: 1rem; font-size: 0.9em; color: var(--slate-500);">
         <strong>⚠️ Important Reminder:</strong> This summary is AI-generated and for informational purposes only.

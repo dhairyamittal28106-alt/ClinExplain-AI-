@@ -14,9 +14,9 @@ from .validator import InputValidator, ValidationResult
 from .inference import MedGemmaInference
 from .postprocessor import PostProcessor, SafetyCheckResult
 from .formatter import OutputFormatter, FormattedOutput
-from .config import MEDGEMMA_MODEL_NAME   # ✅ ADDED
+from .config import MEDGEMMA_MODEL_NAME   
 
-# Configure logging
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -58,10 +58,10 @@ class ClinExplainPipeline:
         self.strict_mode = strict_mode
         self.use_mock = use_mock
 
-        # ✅ USE CONFIG MODEL IF NONE PROVIDED
+        
         model_path = model_path or MEDGEMMA_MODEL_NAME
 
-        # Initialize components
+        
         self.validator = InputValidator()
         self.inference = MedGemmaInference(
             model_path=model_path,
@@ -85,7 +85,7 @@ class ClinExplainPipeline:
 
         warnings = []
 
-        # Step 1: Validate input
+        
         logger.info("Step 1: Validating input")
         validation_result = self.validator.validate(report_text)
 
@@ -106,7 +106,7 @@ class ClinExplainPipeline:
         sanitized_text = validation_result.sanitized_text
         logger.info(f"✓ Input validated ({len(sanitized_text)} characters)")
 
-        # Step 2: Extract findings
+        
         logger.info("Step 2: Extracting findings with MedGemma")
         extraction_result = self.inference.extract_findings(sanitized_text)
 
@@ -125,7 +125,7 @@ class ClinExplainPipeline:
 
         logger.info("✓ Findings extracted")
 
-        # Step 3: Safety checks
+        
         logger.info("Step 3: Running safety checks")
         safety_result = self.postprocessor.process(
             extraction_result.output,
@@ -154,11 +154,11 @@ class ClinExplainPipeline:
         extraction = safety_result.sanitized_output
         logger.info(f"✓ Safety checks passed ({len(extraction.get('findings', []))} findings)")
 
-        # Optional filter
+        
         if filter_low_confidence:
             extraction = self.postprocessor.filter_low_confidence(extraction)
 
-        # Step 4: Summary
+        
         summary = None
         if include_summary:
             logger.info("Step 4: Generating patient-friendly summary")
@@ -171,7 +171,7 @@ class ClinExplainPipeline:
                 except Exception:
                     warnings.append("Patient summary could not be generated")
 
-        # Step 5: Format output
+        
         logger.info("Step 5: Formatting output")
         formatted = self.formatter.format_full_output(extraction, summary)
         logger.info(f"✓ Output formatted ({formatted.word_count} words)")
@@ -225,9 +225,9 @@ class ClinExplainPipeline:
         }
 
 
-# ============================================================================
-# CONVENIENCE FUNCTIONS
-# ============================================================================
+
+
+
 
 def create_pipeline(
     model_path: Optional[str] = None,

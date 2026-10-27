@@ -11,7 +11,7 @@ import sys
 import os
 from pathlib import Path
 
-# Add parent directory to path for imports
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.pipeline import ClinExplainPipeline, PipelineResult
@@ -22,8 +22,8 @@ from ui.components.report_viewer import format_original_report
 from ui.components.explanation_panel import format_patient_summary
 from ui.components.metadata_display import format_metadata_panel
 
-# Initialize pipeline (will use mock mode by default for demo)
-# Set use_mock=False when running with actual MedGemma in Kaggle
+
+
 pipeline = ClinExplainPipeline(
     use_mock=False,
     include_disclaimer=True
@@ -42,8 +42,8 @@ def extract_text_from_pdf(file_path: str) -> str:
         Extracted text content
     """
     try:
-        # TODO: Implement PDF extraction for production
-        # For now, return instruction message
+        
+        
         return "PDF upload feature coming soon. Please paste text directly for now."
     except Exception as e:
         return f"Error reading PDF: {str(e)}"
@@ -60,7 +60,7 @@ def process_report(text_input: str, file_input) -> tuple:
     Returns:
         Tuple of (original_html, findings_html, flags_html, summary_md, metadata_json, error_msg)
     """
-    # Handle input source
+    
     if file_input is not None:
         report_text = extract_text_from_pdf(file_input.name)
     elif text_input and text_input.strip():
@@ -75,7 +75,7 @@ def process_report(text_input: str, file_input) -> tuple:
             "⚠️ Please provide a clinical report by pasting text or uploading a PDF."
         )
     
-    # Run pipeline
+    
     try:
         result: PipelineResult = pipeline.process(
             report_text,
@@ -83,7 +83,7 @@ def process_report(text_input: str, file_input) -> tuple:
             filter_low_confidence=False
         )
         
-        # Handle failure
+        
         if not result.success:
             error_html = f"""
             <div class="med-banner danger">
@@ -104,7 +104,7 @@ def process_report(text_input: str, file_input) -> tuple:
             """
             return ("", "", "", "", {}, error_html)
         
-        # Format successful result
+        
         original_html = format_original_report(
             report_text,
             result.extraction
@@ -157,7 +157,7 @@ def clear_all():
     return ("", None, "", "", "", "", {}, "")
 
 
-# Custom CSS for Professional Dark Hospital UI (Radiology Style)
+
 
 custom_css = """
 /* ===== FORCE HERO IMAGE SIZE (FINAL OVERRIDE) - KEEPING USER FIX ===== */
@@ -418,7 +418,7 @@ button.primary {
 footer { display: none !important; }
 """
 
-# HTML for Hero Section
+
 HERO_HTML = """
 <div class="hero-wrapper">
     <div class="hero-content">
@@ -444,7 +444,7 @@ HERO_HTML = """
 </div>
 """
 
-# HTML for Team Section
+
 TEAM_HTML = """
 <div style="margin-top: 3rem; margin-bottom: 2rem;">
     <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-main);">Meet Our Medical Advisory Team</h3>
@@ -463,7 +463,7 @@ TEAM_HTML = """
 </div>
 """
 
-# Build Gradio Interface
+
 with gr.Blocks(
     theme=gr.themes.Soft(
         primary_hue="teal",
@@ -487,12 +487,12 @@ with gr.Blocks(
     analytics_enabled=False
 ) as demo:
 
-    # Hero (Full Width visually handled by CSS targeting)
+    
     gr.HTML(HERO_HTML)
     
-    # Main Layout Container
+    
     with gr.Row():
-        # Input Section
+        
         with gr.Column(scale=5):
             gr.Markdown("### 📄 Input Report", elem_classes=["med-card-title"])
             
@@ -522,7 +522,7 @@ with gr.Blocks(
                         size="lg"
                     )
             
-            # Guidelines / Disclaimer
+            
             gr.HTML("""
             <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
                 <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
@@ -534,11 +534,11 @@ with gr.Blocks(
             </div>
             """)
             
-        # Results Section
+        
         with gr.Column(scale=7):
             status_msg = gr.HTML(label="Status", visible=True)
             
-            # EMPTY STATE PLACEHOLDER
+            
             with gr.Group(visible=True) as placeholder_card:
                 gr.HTML("""
                 <div class="med-card" style="text-align: center; padding: 4rem 2rem !important; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px;">
@@ -550,7 +550,7 @@ with gr.Blocks(
                 </div>
                 """)
 
-            # RESULTS CONTAINER
+            
             with gr.Group(visible=False) as results_container:
                 with gr.Tabs(elem_id="results-tabs"):
                     with gr.Tab("Summary"):
@@ -574,10 +574,10 @@ with gr.Blocks(
                     size="sm"
                 )
 
-    # Team Section
+    
     gr.HTML(TEAM_HTML)
 
-    # Footer
+    
     gr.HTML("""
     <div style="text-align: center; margin-top: 4rem; padding-bottom: 2rem; color: var(--text-muted);">
         <p style="font-size: 0.9rem;">
@@ -586,7 +586,7 @@ with gr.Blocks(
     </div>
     """)
 
-    # Event Handlers
+    
     def analyze_with_visibility(text, file):
         results = process_report(text, file)
         return results + (gr.update(visible=False), gr.update(visible=True))
@@ -628,22 +628,22 @@ with gr.Blocks(
     )
 
 
-# FastAPI Integration for Static Asset Serving
+
 if __name__ == "__main__":
     try:
         from fastapi import FastAPI
         from fastapi.staticfiles import StaticFiles
         import uvicorn
         
-        # Create Main App
+        
         app = FastAPI()
         
-        # Mount the "public/images" directory to "/images" path
-        # This allows accessing http://localhost:7864/images/doctor.png
+        
+        
         app.mount("/images", StaticFiles(directory="public/images"), name="images")
         
-        # Mount Gradio App
-        # We allow allowed_paths still just in case, but the primary serving is via FastAPI
+        
+        
         app = gr.mount_gradio_app(
     app,
     demo,

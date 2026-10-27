@@ -75,7 +75,7 @@ class PostProcessor:
         violations = []
         warnings = []
         
-        # Step 1: Parse JSON
+        
         try:
             parsed_output = self._parse_json(raw_output)
         except json.JSONDecodeError as e:
@@ -90,7 +90,7 @@ class PostProcessor:
                 sanitized_output=None
             )
         
-        # Step 2: Validate schema
+        
         schema_valid, schema_errors = self._validate_schema(parsed_output)
         if not schema_valid:
             violations.extend([{
@@ -99,12 +99,12 @@ class PostProcessor:
                 "severity": "high"
             } for error in schema_errors])
         
-        # Step 3: Check for forbidden phrases
+        
         forbidden_found = self._check_forbidden_phrases(parsed_output)
         if forbidden_found:
             violations.extend(forbidden_found)
         
-        # Step 4: Verify source quotes exist in original text
+        
         missing_quotes = self._verify_source_quotes(parsed_output, original_text)
         if missing_quotes:
             warnings.extend([
@@ -112,15 +112,15 @@ class PostProcessor:
                 for quote in missing_quotes
             ])
         
-        # Step 5: Check for hallucinations (findings not in source)
+        
         hallucinations = self._detect_hallucinations(parsed_output, original_text)
         if hallucinations:
             violations.extend(hallucinations)
         
-        # Step 6: Sanitize output (remove violations if possible)
+        
         sanitized = self._sanitize_output(parsed_output, violations)
         
-        # Determine if safe
+        
         critical_violations = [v for v in violations if v.get("severity") == "critical"]
         is_safe = len(critical_violations) == 0 if self.strict_mode else len(violations) == 0
         
@@ -136,14 +136,14 @@ class PostProcessor:
         Parse JSON from raw output.
         Handles common formatting issues.
         """
-        # Remove markdown code blocks if present
+        
         raw_output = re.sub(r'```json\s*', '', raw_output)
         raw_output = re.sub(r'```\s*$', '', raw_output)
         
-        # Strip whitespace
+        
         raw_output = raw_output.strip()
         
-        # Parse JSON
+        
         return json.loads(raw_output)
     
     def _validate_schema(self, output: Dict[str, Any]) -> Tuple[bool, List[str]]:
@@ -154,7 +154,7 @@ class PostProcessor:
             Tuple of (is_valid, list_of_errors)
         """
         if not JSONSCHEMA_AVAILABLE:
-            # Basic validation without jsonschema
+            
             required_keys = ["findings", "attention_flags", "terminology", "uncertainties"]
             missing = [k for k in required_keys if k not in output]
             if missing:
@@ -178,12 +178,12 @@ class PostProcessor:
         """
         violations = []
         
-        # Convert entire output to lowercase string for checking
+        
         output_text = json.dumps(output).lower()
         
         for phrase in self.forbidden_phrases:
             if phrase.lower() in output_text:
-                # Determine category
+                
                 if phrase in FORBIDDEN_DIAGNOSTIC_PHRASES:
                     category = "diagnostic_language"
                 elif phrase in FORBIDDEN_TREATMENT_PHRASES:
@@ -216,13 +216,13 @@ class PostProcessor:
         missing_quotes = []
         original_lower = original_text.lower()
         
-        # Check findings
+        
         for finding in output.get("findings", []):
             quote = finding.get("source_quote", "")
             if quote and quote.lower() not in original_lower:
                 missing_quotes.append(quote)
         
-        # Check attention flags
+        
         for flag in output.get("attention_flags", []):
             quote = flag.get("source_quote", "")
             if quote and quote.lower() not in original_lower:
@@ -242,11 +242,11 @@ class PostProcessor:
         """
         violations = []
         
-        # For now, rely on source quote verification
-        # More sophisticated hallucination detection would require
-        # semantic similarity or entailment checking
         
-        # Check if findings have source quotes
+        
+        
+        
+        
         for i, finding in enumerate(output.get("findings", [])):
             if not finding.get("source_quote"):
                 violations.append({
@@ -274,19 +274,19 @@ class PostProcessor:
         """
         sanitized = output.copy()
         
-        # If there are critical violations, we can't safely sanitize
+        
         critical = [v for v in violations if v.get("severity") == "critical"]
         if critical:
             return sanitized
         
-        # Remove findings without source quotes
+        
         if "findings" in sanitized:
             sanitized["findings"] = [
                 f for f in sanitized["findings"]
                 if f.get("source_quote")
             ]
         
-        # Remove attention flags without source quotes
+        
         if "attention_flags" in sanitized:
             sanitized["attention_flags"] = [
                 f for f in sanitized["attention_flags"]
@@ -315,14 +315,14 @@ class PostProcessor:
         
         filtered = output.copy()
         
-        # Filter findings
+        
         if "findings" in filtered:
             filtered["findings"] = [
                 f for f in filtered["findings"]
                 if confidence_order.get(f.get("confidence", "low"), 0) >= min_level
             ]
         
-        # Filter terminology
+        
         if "terminology" in filtered:
             filtered["terminology"] = [
                 t for t in filtered["terminology"]
@@ -332,9 +332,9 @@ class PostProcessor:
         return filtered
 
 
-# ============================================================================
-# CONVENIENCE FUNCTIONS
-# ============================================================================
+
+
+
 
 def validate_output(
     raw_output: str, 

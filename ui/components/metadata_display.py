@@ -39,11 +39,11 @@ def format_metadata_panel(result) -> Dict[str, Any]:
         }
     }
     
-    # Add warnings if present
+    
     if result.warnings:
         metadata["warnings_detail"] = result.warnings
     
-    # Add safety violations if present
+    
     if result.safety_result and result.safety_result.violations:
         metadata["safety_violations_detail"] = [
             {

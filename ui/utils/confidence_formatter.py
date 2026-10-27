@@ -69,7 +69,7 @@ def format_findings_html(findings: List[Dict[str, Any]]) -> str:
         
         confidence_html = format_confidence_visual(confidence)
         
-        # Category emoji
+        
         category_emoji = {
             'observation': '👁️',
             'normal': '✓',
@@ -134,11 +134,11 @@ def format_flags_html(flags: List[Dict[str, Any]]) -> str:
         context = flag.get('context', '')
         source = flag.get('source_quote', '')
         
-        # Severity styling
+        
         if severity.lower() == 'warning':
             banner_class = 'warning'
             icon = '⚠️'
-        else:  # info
+        else:  
             banner_class = 'info'
             icon = 'ℹ️'
         

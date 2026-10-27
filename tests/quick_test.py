@@ -7,7 +7,7 @@ This script tests core components without requiring external dependencies.
 import sys
 from pathlib import Path
 
-# Add src to path
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_imports():
@@ -47,7 +47,7 @@ def test_validator():
     
     from src.validator import validate_input
     
-    # Test valid input
+    
     valid_text = "Chest X-ray shows normal heart and lungs. No acute findings."
     result = validate_input(valid_text)
     
@@ -56,7 +56,7 @@ def test_validator():
     print(f"  Valid: {result.is_valid}")
     print(f"  Warnings: {len(result.warnings)}")
     
-    # Test too short
+    
     short_text = "Normal"
     result = validate_input(short_text)
     

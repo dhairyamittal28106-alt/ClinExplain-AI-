@@ -20,7 +20,7 @@ def highlight_source_quotes(text: str, source_quotes: List[str]) -> str:
     """
     highlighted = text
     
-    # Sort by length (longest first) to avoid partial matches
+    
     sorted_quotes = sorted(set(source_quotes), key=len, reverse=True)
     
     for quote in sorted_quotes:
@@ -45,17 +45,17 @@ def extract_source_quotes_from_extraction(extraction: dict) -> Set[str]:
     """
     quotes = set()
     
-    # From findings
+    
     for finding in extraction.get('findings', []):
         if 'source_quote' in finding and finding['source_quote']:
             quotes.add(finding['source_quote'])
     
-    # From attention flags
+    
     for flag in extraction.get('attention_flags', []):
         if 'source_quote' in flag and flag['source_quote']:
             quotes.add(flag['source_quote'])
     
-    # From terminology
+    
     for term in extraction.get('terminology', []):
         if 'source_quote' in term and term['source_quote']:
             quotes.add(term['source_quote'])

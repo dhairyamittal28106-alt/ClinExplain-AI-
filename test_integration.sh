@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# ClinExplain AI - Complete System Test
-# Tests both backend and frontend integration
+
+
 
 set -e
 
@@ -10,14 +10,14 @@ echo "ClinExplain AI - System Integration Test"
 echo "================================================"
 echo ""
 
-# Test 1: Backend Components
+
 echo "Test 1: Backend Components"
 echo "----------------------------"
 python3 tests/quick_test.py
 echo "✓ Backend components verified"
 echo ""
 
-# Test 2: Frontend Imports
+
 echo "Test 2: Frontend Imports"
 echo "------------------------"
 python3 -c "
@@ -31,7 +31,7 @@ print('✓ All UI components imported successfully')
 "
 echo ""
 
-# Test 3: Pipeline Integration
+
 echo "Test 3: Pipeline Integration"
 echo "----------------------------"
 python3 -c "

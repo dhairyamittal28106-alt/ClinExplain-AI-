@@ -17,7 +17,7 @@ def main():
     print("=" * 70)
     print()
     
-    # Sample report
+    
     report = """Chest X-ray demonstrates mild cardiomegaly. Lungs are clear bilaterally. 
 No acute infiltrates. No pleural effusion or pneumothorax identified. 
 Recommend clinical correlation."""
@@ -28,12 +28,12 @@ Recommend clinical correlation."""
     print("-" * 70)
     print()
     
-    # Create pipeline
+    
     print("Initializing pipeline...")
     pipeline = create_pipeline(use_mock=True)
     print("✓ Ready\n")
     
-    # Process
+    
     print("Processing report...")
     result = pipeline.process(report)
     print()

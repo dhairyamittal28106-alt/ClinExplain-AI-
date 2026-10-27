@@ -26,7 +26,7 @@ def format_original_report(report_text: str, extraction: Dict[str, Any]) -> str:
         </div>
         """
     
-    # Collect all source quotes
+    
     source_quotes = set()
     
     for finding in extraction.get('findings', []):
@@ -37,9 +37,9 @@ def format_original_report(report_text: str, extraction: Dict[str, Any]) -> str:
         if 'source_quote' in flag and flag['source_quote']:
             source_quotes.add(flag['source_quote'])
     
-    # Highlight source quotes in report
+    
     highlighted_text = report_text
-    for quote in sorted(source_quotes, key=len, reverse=True):  # Longest first to avoid partial matches
+    for quote in sorted(source_quotes, key=len, reverse=True):  
         if quote in highlighted_text:
             highlighted_text = highlighted_text.replace(
                 quote,
